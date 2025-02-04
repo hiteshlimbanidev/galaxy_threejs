@@ -26,6 +26,7 @@ const parameters = {
   randomnessPower: 3,
   insideColor: "#ff6030",
   outsideColor: "#1b3984",
+  speed: 0.1,
 };
 
 let geometry = null;
@@ -142,6 +143,12 @@ gui
   .max(10)
   .step(0.001)
   .onFinishChange(genrategalexy);
+gui
+  .add(parameters, "speed")
+  .min(0.01)
+  .max(2)
+  .step(0.001)
+  .onFinishChange(genrategalexy);
 gui.addColor(parameters, "insideColor").onFinishChange(genrategalexy);
 gui.addColor(parameters, "outsideColor").onFinishChange(genrategalexy);
 /**
@@ -201,7 +208,9 @@ const clock = new THREE.Clock();
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
-
+  if (points) {
+    points.rotation.y = -elapsedTime * parameters.speed; // Adjust speed as needed
+  }
   // Update controls
   controls.update();
 
